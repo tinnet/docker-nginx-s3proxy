@@ -14,9 +14,9 @@ server {
   open_file_cache_errors   on;
 
   location ~* ^/(.*) {
-    set $bucket           '<REPLACE WITH YOUR S3 BUCKET NAME>';
-    set $aws_access       '<REPLACE WITH YOUR AWS ACCESS KEY>';
-    set $aws_secret       '<REPLACE WITH YOUR AWS SECRET KEY>';
+    set $bucket           '{{getv "/s3proxy/bucket/name"}}';
+    set $aws_access       '{{getv "/s3proxy/aws/access/key"}}';
+    set $aws_secret       '{{getv "/s3proxy/aws/secret/key"}}';
     set $url_full         "$1";
 
     set_by_lua $now       "return ngx.cookie_time(ngx.time())";
@@ -28,6 +28,7 @@ server {
     resolver_timeout       10s;
 
     proxy_pass             http://s3-website-eu-west-1.amazonaws.com;
+
     rewrite .* /$url_full break;
 
     proxy_http_version     1.1;

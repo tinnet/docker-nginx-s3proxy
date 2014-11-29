@@ -9,13 +9,13 @@ mkdir --parents ./nginx-src
 curl -L http://nginx.org/download/nginx-1.7.7.tar.gz | tar xz -C ./nginx-src --strip-components=1
 
 mkdir --parents ./ngx_devel_kit
-curl -L --insecure https://github.com/simpl/ngx_devel_kit/archive/v0.2.19.tar.gz | tar xz -C ./ngx_devel_kit --strip-components=1
+curl -L https://github.com/simpl/ngx_devel_kit/archive/v0.2.19.tar.gz | tar xz -C ./ngx_devel_kit --strip-components=1
 
 mkdir --parents ./set-misc-nginx-module
-curl -L --insecure https://github.com/openresty/set-misc-nginx-module/archive/v0.27.tar.gz | tar xz -C ./set-misc-nginx-module --strip-components=1
+curl -L https://github.com/openresty/set-misc-nginx-module/archive/v0.27.tar.gz | tar xz -C ./set-misc-nginx-module --strip-components=1
 
 mkdir --parents ./lua-nginx-module
-curl -L --insecure https://github.com/openresty/lua-nginx-module/archive/v0.9.13.tar.gz | tar xz -C ./lua-nginx-module --strip-components=1
+curl -L https://github.com/openresty/lua-nginx-module/archive/v0.9.13.tar.gz | tar xz -C ./lua-nginx-module --strip-components=1
 
 # build & install nginx (configure flags are nginx-full + our modules)
 cd ./nginx-src
