@@ -1,11 +1,11 @@
 [submodule "modules/ngx_devel_kit"]
-	path = modules/ngx_devel_kit
+	path = ngx_modules/ngx_devel_kit
 	url = https://github.com/simpl/ngx_devel_kit.git
 [submodule "modules/set-misc-nginx-module"]
-	path = modules/set-misc-nginx-module
+	path = ngx_modules/set-misc-nginx-module
 	url = https://github.com/openresty/set-misc-nginx-module.git
 [submodule "modules/lua-nginx-module"]
-	path = modules/lua-nginx-module
+	path = ngx_modules/lua-nginx-module
 	url = https://github.com/openresty/lua-nginx-module
 [submodule "ngx_source"]
 	path = ngx_source

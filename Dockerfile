@@ -14,7 +14,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && rm -rf /usr/share/man/?? /usr/share/man/??_*
 
 # download & compile ngix...
-COPY modules /root/ngx_modules
+COPY ngx_modules /root/ngx_modules
 COPY ngx_source /root/ngx_source
 RUN cd /root/ngx_source \
     && ./configure \
