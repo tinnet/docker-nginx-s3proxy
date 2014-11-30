@@ -3,4 +3,4 @@
 set -e
 
 confd -onetime -backend env
-nginx -g "daemon off;"
+exec nginx -g "daemon off;"
