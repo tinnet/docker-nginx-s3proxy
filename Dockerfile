@@ -15,7 +15,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 
 # download & compile ngix...
 COPY install-nginx.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/install-nginx.sh
 RUN install-nginx.sh
 
 ## html5 boilerplate config - courtesy of https://github.com/michaelcontento/docker-nginx
@@ -49,7 +48,6 @@ RUN curl -L https://github.com/kelseyhightower/confd/releases/download/v0.6.3/co
 COPY confd_buckets.toml /etc/confd/conf.d/
 COPY buckets.conf.tmpl /etc/confd/templates/
 COPY run-nginx.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/run-nginx.sh
 
 EXPOSE 80 443
 CMD ["run-nginx.sh"]
