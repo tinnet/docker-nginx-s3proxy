@@ -14,8 +14,45 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && rm -rf /usr/share/man/?? /usr/share/man/??_*
 
 # download & compile ngix...
-COPY install-nginx.sh /usr/local/bin/
-RUN install-nginx.sh
+COPY modules /root/ngx_modules
+COPY ngx_source /root/ngx_source
+RUN cd /root/ngx_source \
+    && ./configure \
+      --with-cc-opt="$(dpkg-buildflags --get CFLAGS) $(dpkg-buildflags --get CPPFLAGS)" \
+      --with-ld-opt="$(dpkg-buildflags --get LDFLAGS)" \
+      --prefix=/usr/local \
+      --sbin-path=/usr/local/sbin \
+      --conf-path=/etc/nginx/nginx.conf \
+      --http-log-path=/var/log/nginx/access.log \
+      --error-log-path=/var/log/nginx/error.log \
+      --lock-path=/var/lock/nginx.lock \
+      --pid-path=/run/nginx.pid \
+      --http-client-body-temp-path=/var/lib/nginx/body \
+      --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
+      --http-proxy-temp-path=/var/lib/nginx/proxy \
+      --http-scgi-temp-path=/var/lib/nginx/scgi \
+      --http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
+      --with-debug \
+      --with-pcre-jit \
+      --with-ipv6 \
+      --with-http_ssl_module \
+      --with-http_stub_status_module \
+      --with-http_realip_module \
+      --with-http_auth_request_module \
+      --with-http_addition_module \
+      --with-http_geoip_module \
+      --with-http_gzip_static_module \
+      --with-http_image_filter_module \
+      --with-http_spdy_module \
+      --with-http_sub_module \
+      --with-http_xslt_module \
+      --add-module=/root/ngx_modules/ngx_devel_kit \
+      --add-module=/root/ngx_modules/set-misc-nginx-module \
+      --add-module=/root/ngx_modules/lua-nginx-module \
+    && make -j2 \
+    && make install \
+    && rm -rf /root/ngx_modules /root/ngx_source \
+    && mkdir --parents /var/lib/nginx
 
 ## html5 boilerplate config - courtesy of https://github.com/michaelcontento/docker-nginx
 RUN useradd www
