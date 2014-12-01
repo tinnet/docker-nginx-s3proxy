@@ -24,10 +24,11 @@ server {
     set_hmac_sha1          $aws_signature $aws_secret $string_to_sign;
     set_encode_base64      $aws_signature $aws_signature;
 
-    resolver               172.31.0.2 valid=300s;
+    #resolver               172.31.0.2 valid=300s;
+    resolver               8.8.8.8 valid=300s;
     resolver_timeout       10s;
 
-    proxy_pass             https://$bucket.s3.amazonaws.com/;
+    proxy_pass             https://s3.amazonaws.com/;
 
     rewrite .* /$url_full break;
 
