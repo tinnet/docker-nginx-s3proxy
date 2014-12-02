@@ -55,11 +55,9 @@ RUN cd /root/ngx_source \
     && mkdir --parents /var/lib/nginx
 
 # needed to configure buckets from env vars
-RUN curl -L https://github.com/kelseyhightower/confd/releases/download/v0.6.3/confd-0.6.3-linux-amd64 -o /usr/local/bin/confd \
-    && chmod +x /usr/local/bin/confd \
-    && mkdir --parents /etc/confd/conf.d \
+COPY confd-0.6.3-linux-amd64 /usr/local/bin/confd
+RUN mkdir --parents /etc/confd/conf.d \
     && mkdir --parents /etc/confd/templates
-
 COPY confd_buckets.toml /etc/confd/conf.d/
 COPY nginx.conf.tmpl /etc/confd/templates/
 COPY mime.types /etc/nginx/mime.types
