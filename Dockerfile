@@ -55,18 +55,11 @@ RUN cd /root/ngx_source \
     && mkdir --parents /var/lib/nginx
 
 # needed to configure buckets from env vars
-COPY config/confd-0.6.3-linux-amd64 /usr/local/bin/confd
-RUN mkdir --parents /etc/confd/conf.d \
-    && mkdir --parents /etc/confd/templates
-COPY config/confd_buckets.toml /etc/confd/conf.d/
-COPY config/nginx.conf /etc/confd/templates/
+COPY config/ep-v0.0.4-linux /usr/local/bin/ep
+COPY config/nginx.conf /etc/nginx/nginx.conf
 COPY config/mime.types /etc/nginx/mime.types
-COPY config/run-nginx.sh /usr/local/bin/
 
 RUN useradd www
 
-# poor man's CI
-RUN nginx -t 2>&1
-
 EXPOSE 80 443
-CMD ["run-nginx.sh"]
+CMD [ "ep", "-v", "/etc/nginx/nginx.conf", "--", "/usr/bin/env", "nginx", "-g", "daemon off;" ]

@@ -1,9 +1,0 @@
-[template]
-src = "nginx.conf"
-dest = "/etc/nginx/nginx.conf"
-keys = [
-    "/s3proxy/bucket/name",
-    "/s3proxy/aws/access/key",
-    "/s3proxy/aws/secret/key",
-]
-check_cmd = "nginx -t 2>&1"
