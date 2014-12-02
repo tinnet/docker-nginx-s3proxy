@@ -1,6 +1,6 @@
 [template]
-src = "buckets.conf.tmpl"
-dest = "/etc/nginx/sites-enabled/buckets"
+src = "nginx.conf.tmpl"
+dest = "/etc/nginx/nginx.conf"
 keys = [
     "/s3proxy/bucket/name",
     "/s3proxy/aws/access/key",

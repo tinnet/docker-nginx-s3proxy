@@ -47,34 +47,12 @@ RUN cd /root/ngx_source \
       --with-http_sub_module \
       --with-http_xslt_module \
       --add-module=/root/ngx_modules/ngx_devel_kit \
-      --add-module=/root/ngx_modules/set-misc-nginx-module \
       --add-module=/root/ngx_modules/lua-nginx-module \
+      --add-module=/root/ngx_modules/ngx_aws_auth \
     && make -j2 \
     && make install \
     && rm -rf /root/ngx_modules /root/ngx_source \
     && mkdir --parents /var/lib/nginx
-
-## html5 boilerplate config - courtesy of https://github.com/michaelcontento/docker-nginx
-RUN useradd www
-
-# we're based on the awesome work by the h5bp community
-RUN curl -L https://github.com/h5bp/server-configs-nginx/archive/master.tar.gz | tar xzop -C /tmp \
-    && mkdir --parents /etc/nginx \
-    && cp -rf /tmp/server-configs-nginx-master/* /etc/nginx/ \
-    && rm -rf /tmp/* \
-    && rm -f /etc/nginx/conf.d/*
-
-# and add / configure some additional stuff
-RUN CFG="/etc/nginx/nginx.conf" \
-    && sed -i -e '0,/include sites/s//include conf.d\/*.conf;\n  include sites/' $CFG \
-    && sed -i -e 's/error_log .*/error_log \/dev\/stderr warn;/' $CFG \
-    && sed -i -e 's/access_log .*/access_log \/dev\/stdout main;/' $CFG \
-    && CFG="/etc/nginx/h5bp/location/expires.conf" \
-    && sed -i -e 's/access_log .*/access_log \/dev\/stdout main;/' $CFG \
-    && ln -s ../sites-available/no-default /etc/nginx/sites-enabled/
-
-# poor man's CI
-RUN nginx -t 2>&1
 
 # needed to configure buckets from env vars
 RUN curl -L https://github.com/kelseyhightower/confd/releases/download/v0.6.3/confd-0.6.3-linux-amd64 -o /usr/local/bin/confd \
@@ -83,8 +61,14 @@ RUN curl -L https://github.com/kelseyhightower/confd/releases/download/v0.6.3/co
     && mkdir --parents /etc/confd/templates
 
 COPY confd_buckets.toml /etc/confd/conf.d/
-COPY buckets.conf.tmpl /etc/confd/templates/
+COPY nginx.conf.tmpl /etc/confd/templates/
+COPY mime.types /etc/nginx/mime.types
 COPY run-nginx.sh /usr/local/bin/
+
+RUN useradd www
+
+# poor man's CI
+RUN nginx -t 2>&1
 
 EXPOSE 80 443
 CMD ["run-nginx.sh"]
