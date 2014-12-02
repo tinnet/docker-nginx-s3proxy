@@ -55,13 +55,13 @@ RUN cd /root/ngx_source \
     && mkdir --parents /var/lib/nginx
 
 # needed to configure buckets from env vars
-COPY confd-0.6.3-linux-amd64 /usr/local/bin/confd
+COPY config/confd-0.6.3-linux-amd64 /usr/local/bin/confd
 RUN mkdir --parents /etc/confd/conf.d \
     && mkdir --parents /etc/confd/templates
-COPY confd_buckets.toml /etc/confd/conf.d/
-COPY nginx.conf.tmpl /etc/confd/templates/
-COPY mime.types /etc/nginx/mime.types
-COPY run-nginx.sh /usr/local/bin/
+COPY config/confd_buckets.toml /etc/confd/conf.d/
+COPY config/nginx.conf.tmpl /etc/confd/templates/
+COPY config/mime.types /etc/nginx/mime.types
+COPY config/run-nginx.sh /usr/local/bin/
 
 RUN useradd www
 
