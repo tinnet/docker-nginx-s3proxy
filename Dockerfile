@@ -59,7 +59,7 @@ COPY config/confd-0.6.3-linux-amd64 /usr/local/bin/confd
 RUN mkdir --parents /etc/confd/conf.d \
     && mkdir --parents /etc/confd/templates
 COPY config/confd_buckets.toml /etc/confd/conf.d/
-COPY config/nginx.conf.tmpl /etc/confd/templates/
+COPY config/nginx.conf /etc/confd/templates/
 COPY config/mime.types /etc/nginx/mime.types
 COPY config/run-nginx.sh /usr/local/bin/
 
