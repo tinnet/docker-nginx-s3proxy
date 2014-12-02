@@ -29,3 +29,11 @@ Run a container from that image:
 * OSX users: watch out for boot2docker's clock going bad, run this to fix:
 
       boot2docker ssh sudo ntpclient -s -h pool.ntp.org
+
+# Credit where credit is due
+
+Based on:
+* [https://registry.hub.docker.com/_/debian/]()
+* [http://nginx.org/]()
+* [https://github.com/anomalizer/ngx_aws_auth]()
+* [https://github.com/kreuzwerker/envplate]()

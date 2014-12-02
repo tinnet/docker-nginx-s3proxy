@@ -54,7 +54,7 @@ RUN cd /root/ngx_source \
     && rm -rf /root/ngx_modules /root/ngx_source \
     && mkdir --parents /var/lib/nginx
 
-# needed to configure buckets from env vars
+# use envplate to configure buckets from env vars (https://github.com/kreuzwerker/envplate)
 COPY config/ep-v0.0.4-linux /usr/local/bin/ep
 COPY config/nginx.conf /etc/nginx/nginx.conf
 COPY config/mime.types /etc/nginx/mime.types
